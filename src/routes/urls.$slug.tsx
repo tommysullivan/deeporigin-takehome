@@ -7,9 +7,17 @@ const getURLBySlug = createServerFn({ method: "GET" })
   .handler(async ({ data: slug }) => {
     const result = await dbTypesafe
       .selectFrom("urls")
-      .select(["originalURL"])
+      .select(["id", "originalURL"])
       .where("shortURLSlug", "=", slug)
       .executeTakeFirst();
+
+    if (result) {
+      // Record the click before redirecting
+      await dbTypesafe
+        .insertInto("clicks")
+        .values({ url_id: result.id })
+        .execute();
+    }
 
     return result?.originalURL ?? null;
   });
@@ -17,14 +25,14 @@ const getURLBySlug = createServerFn({ method: "GET" })
 export const Route = createFileRoute("/urls/$slug")({
   loader: async ({ params }) => {
     const originalURL = await getURLBySlug({ data: params.slug });
-    
+
     if (originalURL) {
       throw redirect({
         href: originalURL,
         code: 302,
       });
     }
-    
+
     return { slug: params.slug };
   },
   component: NotFoundComponent,
