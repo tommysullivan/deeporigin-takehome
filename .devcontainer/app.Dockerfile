@@ -28,6 +28,7 @@ WORKDIR /workspace
 
 # Install global npm packages
 RUN npm install -g typescript tsx
+RUN npm install -g vercel
 
 # Stay as root user for Docker socket access
 # Set default shell to bash

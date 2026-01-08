@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
+    "postbuild": "npm run db:migrate",
     "preview": "vite preview",
     "test": "vitest run",
     "format": "biome format",
@@ -19,7 +20,9 @@
     "devcontainer:nuke": "npm run docker-compose -- down -v --remove-orphans && docker system prune -f && docker volume rm deeporigin-takehome_devcontainer_postgres_data || docker volume rm --force deeporigin-takehome_devcontainer_postgres_data",
     "type-check": "tsc --noEmit",
     "docker-compose": "docker compose -f ./.devcontainer/docker-compose.yml",
-    "tsx": "tsx"
+    "tsx": "tsx",
+    "vercel": "vercel",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.49.0",
@@ -58,6 +61,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.0.0",
     "typescript": "^5.7.2",
+    "vercel": "^50.1.6",
     "vite": "^7.1.7",
     "vitest": "^3.0.5",
     "web-vitals": "^5.1.0"

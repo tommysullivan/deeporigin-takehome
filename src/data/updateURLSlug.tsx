@@ -21,7 +21,9 @@ export const updateURLSlug = createServerFn({ method: "POST" })
     } catch (error: any) {
       // Check if it's a unique constraint violation
       if (error?.code === "23505" || error?.message?.includes("unique")) {
-        throw new Error("This slug is already in use. Please choose a different one.");
+        throw new Error(
+          "This slug is already in use. Please choose a different one."
+        );
       }
       throw new Error("Failed to update slug. Please try again.");
     }

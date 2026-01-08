@@ -61,7 +61,7 @@ export function URLEntry({
       <div className="flex justify-between items-start">
         <div className="flex-1">
           <div className="text-sm text-gray-400 mb-1">Short URL</div>
-          
+
           {isEditing ? (
             <div className="mb-3">
               <div className="flex items-center gap-2">
@@ -92,9 +92,7 @@ export function URLEntry({
                   Cancel
                 </button>
               </div>
-              {error && (
-                <p className="text-red-400 text-sm mt-2">{error}</p>
-              )}
+              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
             </div>
           ) : (
             <div className="flex items-center gap-2 mb-3">
