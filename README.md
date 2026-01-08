@@ -1,5 +1,9 @@
 # deeporigin-takehome
 
+# 3 min Video Overview
+
+[Video Overview](https://youtu.be/VM_WmccURIc) demos the app and shows how to set up and run locally as well.
+
 # Visit the Preview App on Vercel
 
 You'll need to login to vercel in order to see the app (this is not app login, just vercel allowing u to access the preview)
@@ -61,7 +65,7 @@ within the app container terminal:
 
 - run `npm run postCreateCommand` to install dependencies and run the database migrations and seeding
 
-### Run the app dev server 
+### Run the app dev server
 
 within the app container terminal:
 
@@ -84,7 +88,7 @@ I usually do end-to-end testing and some unit testing with mocks, and maybe some
 - **Tailwind CSS** for modern styling and animation
 - **Clerk** for OAuth for both frontend and API endpoints
 - **Vercel** for preview deployment integrated with Neon Postgres free tier
-- **Rudimentary rate limiting** that would be better implemented at the LB level since in prod there could be multiple containers balancing traffic, did not have time to implement
+- **Rudimentary rate limiting** [rate-limit.ts](server/middleware/rate-limit.ts) is a rudimentary rate limit script, but ideally such would exist at the load balancer level not the app level, since many server containers might be running and traffic balanced against them. Did not have time to set up the more robust version nor a load balancer for the code exercise, but typically I use kubernetes to deploy and use custom ingress controllers and ingress yamls to manage this, or istio or similar service mesh to define rate limiting rules.
 - **Kysely migrations** to generate tables and generate TypeScript definitions so that queries are typesafe and will break at compile time if schema changes don't line up with TypeScript queries
 - **DevContainer and Docker Compose** to simplify setup
 - **Maximized use of browser-level HTML and CSS** form and input validation to reduce TS footprint for those concerns and increase compatibility
