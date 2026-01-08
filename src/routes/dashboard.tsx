@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Nav } from "@/components/Nav";
 import { URLEntry } from "@/components/URLEntry";
-import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useUser,
+  useClerk,
+} from "@clerk/clerk-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { getURLsWithClicks, URLsWithClicks } from "../data/getURLsWithClicks";
 
@@ -11,6 +17,7 @@ export const Route = createFileRoute("/dashboard")({
 
 function Dashboard() {
   const { user } = useUser();
+  const { redirectToSignIn } = useClerk();
   const [urls, setUrls] = useState<URLsWithClicks>([]);
   const [loading, setLoading] = useState(true);
   const [secondsUntilRefresh, setSecondsUntilRefresh] = useState(10);
@@ -29,7 +36,18 @@ function Dashboard() {
     const fetchData = () => {
       getURLsWithClicks()
         .then(setUrls)
-        .catch(console.error)
+        .catch((error) => {
+          console.error("Full error object:", error);
+          console.error("error.message:", error?.message);
+          console.error("error.status:", error?.status);
+          console.error("error.cause:", error?.cause);
+          console.error("error.data:", error?.data);
+          console.error("JSON stringify:", JSON.stringify(error, null, 2));
+
+          if (error.message === "Unauthorized") {
+            redirectToSignIn();
+          }
+        })
         .finally(() => setLoading(false));
       setSecondsUntilRefresh(10);
     };

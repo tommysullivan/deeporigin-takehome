@@ -4,9 +4,14 @@ import { sql } from "kysely";
 import { shortURLFromSlug } from "./shortURLFromSlug";
 import { auth } from "@clerk/tanstack-react-start/server";
 
-export const getURLsWithClicks = createServerFn({ method: "GET" })
-  .handler(async () => {
+export const getURLsWithClicks = createServerFn({ method: "GET" }).handler(
+  async () => {
     const { userId } = await auth();
+
+    if (!userId) {
+      throw new Error("Unauthorized", { cause: { status: 403 } });
+    }
+
     const results = await dbTypesafe
       .selectFrom("urls")
       .leftJoin("clicks", "urls.id", "clicks.url_id")
@@ -26,6 +31,7 @@ export const getURLsWithClicks = createServerFn({ method: "GET" })
       shortURL: shortURLFromSlug(r.shortURLSlug),
       clickCount: Number(r.clickCount),
     }));
-  });
+  }
+);
 
 export type URLsWithClicks = Awaited<ReturnType<typeof getURLsWithClicks>>;
