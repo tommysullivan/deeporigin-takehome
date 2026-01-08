@@ -4,6 +4,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import appCss from "../styles.css?url";
 import { IconContext } from "node_modules/react-icons/lib/iconContext";
+import ClerkProvider from "../clerk/provider";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -36,24 +37,24 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body style={{ margin: 0, padding: 0, fontFamily: "sans-serif" }}>
-        <main>
+      <body className="m0 p0 font-sans">
+        <ClerkProvider>
           <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
             {children}
           </IconContext.Provider>
-        </main>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+          <Scripts />
+        </ClerkProvider>
       </body>
     </html>
   );
