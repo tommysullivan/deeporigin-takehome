@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Nav } from "@/components/Nav";
-import { SignedIn, useUser } from "@clerk/clerk-react";
+import { URLEntry } from "@/components/URLEntry";
+import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { getURLsWithClicks, URLsWithClicks } from "../data/getURLsWithClicks";
-import { shortURLFromSlug } from "@/data/shortURLFromSlug";
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
@@ -14,6 +14,14 @@ function Dashboard() {
   const [urls, setUrls] = useState<URLsWithClicks>([]);
   const [loading, setLoading] = useState(true);
   const [secondsUntilRefresh, setSecondsUntilRefresh] = useState(10);
+
+  const handleURLUpdate = (id: number, newSlug: string) => {
+    setUrls((prevUrls) =>
+      prevUrls.map((url) =>
+        url.id === id ? { ...url, shortURLSlug: newSlug } : url
+      )
+    );
+  };
 
   useEffect(() => {
     if (!user?.id) return;
@@ -63,46 +71,35 @@ function Dashboard() {
             ) : (
               <div className="space-y-4">
                 {urls.map((url) => (
-                  <div
+                  <URLEntry
                     key={url.id}
-                    className="bg-slate-700 rounded-lg p-4 hover:bg-slate-650 transition-colors"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="text-sm text-gray-400 mb-1">
-                          Short URL
-                        </div>
-                        <a
-                          href={shortURLFromSlug(url.shortURLSlug)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-300 hover:text-blue-200 hover:underline mb-3 block"
-                        >
-                          {shortURLFromSlug(url.shortURLSlug)}
-                        </a>
-                        <div className="text-sm text-gray-400 mb-1">
-                          Original URL
-                        </div>
-                        <div className="text-white break-all">
-                          {url.originalURL}
-                        </div>
-                      </div>
-                      <div className="text-right ml-4">
-                        <div className="text-2xl font-bold text-blue-400">
-                          {url.clickCount}
-                        </div>
-                        <div className="text-sm text-gray-400">
-                          {url.clickCount === 1 ? "click" : "clicks"}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    id={url.id}
+                    originalURL={url.originalURL}
+                    shortURLSlug={url.shortURLSlug}
+                    clickCount={url.clickCount}
+                    onUpdate={handleURLUpdate}
+                  />
                 ))}
               </div>
             )}
           </div>
         </main>
       </SignedIn>
+      <SignedOut>
+        <main className="flex justify-center p-4">
+          <div className="w-full max-w-4xl text-center">
+            <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+            <p className="text-gray-400 mb-4">
+              This page requires you to{" "}
+              <SignInButton>
+                <span className="text-blue-300 hover:underline cursor-pointer">
+                  sign in
+                </span>
+              </SignInButton>
+            </p>
+          </div>
+        </main>
+      </SignedOut>
     </div>
   );
 }

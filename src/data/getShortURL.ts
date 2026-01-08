@@ -2,8 +2,7 @@ import { loadOrCreateURLRow } from "@/data/loadOrCreateURLRow";
 import { auth } from "@clerk/tanstack-react-start/server";
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
-
-const baseURL = process.env.BASE_URL || "http://localhost:3000/";
+import { urlsBasePath } from "./urlsBasePath";
 
 export const getShortURL = createServerFn({
   method: "GET",
@@ -19,7 +18,7 @@ export const getShortURL = createServerFn({
       console.log({ originalURL, userId });
       const { shortURLSlug } = await loadOrCreateURLRow(originalURL, userId);
       return {
-        shortURL: `${baseURL}urls/${shortURLSlug}`,
+        shortURL: `${urlsBasePath}${shortURLSlug}`,
       };
     } catch (error) {
       console.error(error);
