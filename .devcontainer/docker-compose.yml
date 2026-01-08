@@ -8,6 +8,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /workspace
     command: sleep infinity
+    ports:
+      - "3000:3000"
     environment:
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/deeporigin_dev
     depends_on:

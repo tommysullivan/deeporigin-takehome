@@ -2,10 +2,11 @@ import { dbTypesafe } from "@/db/dbTypesafe";
 import { createServerFn } from "@tanstack/react-start";
 import { sql } from "kysely";
 import { shortURLFromSlug } from "./shortURLFromSlug";
+import { auth } from "@clerk/tanstack-react-start/server";
 
 export const getURLsWithClicks = createServerFn({ method: "GET" })
-  .inputValidator((userId: string) => userId)
-  .handler(async ({ data: userId }) => {
+  .handler(async () => {
+    const { userId } = await auth();
     const results = await dbTypesafe
       .selectFrom("urls")
       .leftJoin("clicks", "urls.id", "clicks.url_id")

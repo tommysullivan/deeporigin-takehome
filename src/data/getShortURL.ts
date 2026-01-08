@@ -15,7 +15,6 @@ export const getShortURL = createServerFn({
   .handler(async ({ data: { originalURL } }) => {
     try {
       const { userId } = await auth();
-      console.log({ originalURL, userId });
       const { shortURLSlug } = await loadOrCreateURLRow(originalURL, userId);
       return {
         shortURL: `${urlsBasePath}${shortURLSlug}`,

@@ -27,7 +27,7 @@ function Dashboard() {
     if (!user?.id) return;
 
     const fetchData = () => {
-      getURLsWithClicks({ data: user.id })
+      getURLsWithClicks()
         .then(setUrls)
         .catch(console.error)
         .finally(() => setLoading(false));

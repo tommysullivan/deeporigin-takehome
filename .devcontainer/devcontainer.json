@@ -20,5 +20,5 @@
       }
     }
   },
-  "postCreateCommand": "npm install && npm run db:setup"
+  "postCreateCommand": "npm run postCreateCommand"
 }

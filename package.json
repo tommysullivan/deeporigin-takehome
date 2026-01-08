@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vite dev --port 3000 --host",
     "build": "vite build",
     "postbuild": "npm run db:migrate",
     "preview": "vite preview",
@@ -20,6 +20,8 @@
     "devcontainer:nuke": "npm run docker-compose -- down -v --remove-orphans && docker system prune -f && docker volume rm deeporigin-takehome_devcontainer_postgres_data || docker volume rm --force deeporigin-takehome_devcontainer_postgres_data",
     "type-check": "tsc --noEmit",
     "docker-compose": "docker compose -f ./.devcontainer/docker-compose.yml",
+    "exec-into-app": "npm run docker-compose -- exec app sh",
+    "postCreateCommand": "npm install && npm run db:setup",
     "tsx": "tsx",
     "vercel": "vercel",
     "deploy": "vercel --prod"
