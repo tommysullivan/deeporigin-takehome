@@ -4,7 +4,7 @@
 
 You'll need to login to vercel in order to see the app (this is not app login, just vercel allowing u to access the preview)
 
-[vercel preview app](https://deeporigin-takehome-4tawa1x2t-tommy-sullivans-projects.vercel.app/)
+[vercel preview app](https://deeporigin-takehome-ah20wyoyf-tommy-sullivans-projects.vercel.app/)
 
 NOTE: I didn't add a production app because that would require more effort in order to get the clerk integration for OAuth to work and clerk production mode doesn't support vercel.app domains. I could set it up if need be
 
@@ -31,23 +31,46 @@ Given you've got devcontainer extension installed, VS Code should notice the exi
 It will automatically:
 
 - build and run a custom postgres image as a container based on postgres.Dockerfile
-    - this defines a health check that ensures the database is alive
+  - this defines a health check that ensures the database is alive
 - build and run a custom app image as a container based on app.Dockerfile
-    - the `depends_on` relationship in .devcontainer/docker-compose.yml will cause the app to wait for postgres to be healthy before
+  - the `depends_on` relationship in .devcontainer/docker-compose.yml will cause the app to wait for postgres to be healthy before
 - it will subsequently run `npm postCreateCommand` which will do an `npm install` and a `npm run db:setup` to perform the migrations on your behalf, as well as generate typescript types for your database tables
 
 ### Start the App
 
-- Run `npm run dev` to bring up the dev server. 
-- Click the VS Code prompt with the full url to view in browser. 
+- Run `npm run dev` to bring up the dev server.
+- Click the VS Code prompt with the full url to view in browser.
 
 NOTE: the URL for the browser will use localhost, which VS Code will automatically map to the underlying container on your behalf. If the default port of 3000 is not available on localhost, it may map to a different port on localhost, tho the container server is always listening on 3000, so best to click the VS code prompt when the server is running to ensure you go to the proper localhost url.
 
 ## Local Development - Manual Setup without DevContainers
 
-- run `npm run docker-compose` to set up the compose environment
+### Build and run the containers
+
+- run `npm run docker-compose -- up -d` to set up the compose environment in the background
+
+### Exec into the app container
+
 - run `npm run exec-into-app` to enter a terminal within the app container
+
+NOTE: type `exit` at any time to go back to your previous terminal shell for the host
+
+### Run the setup (install dependencies and run db migrations and seeding)
+
+within the app container terminal:
+
 - run `npm run postCreateCommand` to install dependencies and run the database migrations and seeding
+
+### Run the app dev server 
+
+within the app container terminal:
+
+- run `npm run dev -- --host`
+- click the link that is outputted to console to visit the site
+
+### Clean Up
+
+- from outside the container, run `npm run docker-compose down` to kill everything
 
 # Testing
 
