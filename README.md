@@ -77,3 +77,15 @@ within the app container terminal:
 I spent a lot of time manually testing and if this was a real project (or i had more time) i would add automated testing
 
 I usually do end-to-end testing and some unit testing with mocks, and maybe some in-between low-level-integration tests to cover my bases.
+
+# Architecture
+
+- **TanStack Start** for TypeScript frontend and backend with typesafe server functions that can be called from client or during server-side rendering
+- **Tailwind CSS** for modern styling and animation
+- **Clerk** for OAuth for both frontend and API endpoints
+- **Vercel** for preview deployment integrated with Neon Postgres free tier
+- **Rudimentary rate limiting** that would be better implemented at the LB level since in prod there could be multiple containers balancing traffic, did not have time to implement
+- **Kysely migrations** to generate tables and generate TypeScript definitions so that queries are typesafe and will break at compile time if schema changes don't line up with TypeScript queries
+- **DevContainer and Docker Compose** to simplify setup
+- **Maximized use of browser-level HTML and CSS** form and input validation to reduce TS footprint for those concerns and increase compatibility
+- **Zod** for runtime typechecking of API
