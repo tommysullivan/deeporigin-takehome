@@ -95,6 +95,10 @@ I spent a lot of time manually testing and if this was a real project (or i had 
 
 I usually do end-to-end testing and some unit testing with mocks, and maybe some in-between low-level-integration tests to cover my bases.
 
+# CICD
+
+Usually I use gitlab ci or github actions to define a CICD pipeline in code, specifically one that if i vary the definition of the pipeline in a branch, i can verify the updates work for my branch, including a branch-specific preview deploy and test with a generated link to such back in the PR notes. From within those runners, I have in turn used systems like pulumi, terraform, CDK, skaffold, argo, and others to deterministically version images and config and push IAC definitions to a k8s cluster and surrounding cloud. I have not done that for this project due to time constraints.
+
 # Architecture
 
 - **TanStack Start** for TypeScript frontend and backend with typesafe server functions that can be called from client or during server-side rendering
