@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    volumes:
+      - ../:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /workspace
+    command: sleep infinity
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/deeporigin_dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
+    environment:
+      - POSTGRES_DB=deeporigin_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

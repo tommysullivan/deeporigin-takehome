@@ -1,43 +1,24 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
   "name": "deeporigin-takehome",
-  "build": {
-    // Sets the run context to one level up instead of the .devcontainer folder.
-    "context": "..",
-    // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-    "dockerfile": "../Dockerfile",
-    "target": "devcontainer"
-  },
-
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    "source=${env:HOME}/.gitconfig,target=/root/.gitconfig,type=bind"
-  ],
-
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
-
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
-
-  // Uncomment the next line to run commands after the container is created.
-  "postCreateCommand": "yarn install",
-
-  // Configure tool-specific properties.
-  // "customizations": {},
-
-  // Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-  "remoteUser": "root",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
   "customizations": {
     "vscode": {
       "extensions": [
-        "mads-hartmann.bash-ide-vscode",
-        "ms-azuretools.vscode-docker",
+        "ms-vscode.vscode-typescript-next",
         "esbenp.prettier-vscode",
-        "joao-mbn.react-extract",
-        "bradlc.vscode-tailwindcss"
-      ]
+        "ms-vscode.vscode-json",
+        "ckolkman.vscode-postgres",
+        "ms-azuretools.vscode-containers"
+      ],
+      "settings": {
+        "typescript.preferences.quoteStyle": "single",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
     }
-  }
+  },
+  "postCreateCommand": "npm install && npm run db:setup"
 }
