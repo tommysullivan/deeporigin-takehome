@@ -51,6 +51,7 @@ NOTE: the URL for the browser will use localhost, which VS Code will automatical
 
 ### Build and run the containers
 
+- run `npm run docker-compose build` to build images needed for containers
 - run `npm run docker-compose -- up -d` to set up the compose environment in the background
 
 ### Exec into the app container
