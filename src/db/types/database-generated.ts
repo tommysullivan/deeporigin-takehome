@@ -7,8 +7,8 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 export interface Urls {
   id: Generated<number>;
   originalURL: string;
-  shortURL: string;
-  userId: string;
+  shortURLSlug: string;
+  userId: string | null;
 }
 
 export interface DB {

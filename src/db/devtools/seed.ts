@@ -1,31 +1,11 @@
-import { dbTypesafe } from "../dbTypesafe";
+import { loadOrCreateURLRow } from "@/data/loadOrCreateURLRow";
 
 async function seedDatabase(): Promise<void> {
   try {
-    console.log("🌱 Starting database seeding...");
-
-    const existingUrls = await dbTypesafe
-      .selectFrom("urls")
-      .select("id")
-      .limit(1)
-      .execute();
-
-    if (existingUrls.length > 0) {
-      console.log("📍 Locations already seeded, skipping...");
-    } else {
-      await dbTypesafe
-        .insertInto("urls")
-        .values([
-          {
-            userId: "dummy-id",
-            originalURL: "https://www.tommysullivan.codes",
-            shortURL: "sdof239fu",
-          },
-        ])
-        .execute();
-
-      console.log(`📍 Seeded sample urls`);
-    }
+    await loadOrCreateURLRow("https://www.tommysullivan.codes", null);
+    await loadOrCreateURLRow("https://www.tommysullivan.me", null);
+    await loadOrCreateURLRow("https://www.deeporigin.com/", null);
+    console.log(`📍 Seeded sample urls`);
     console.log("✅ Database seeding completed successfully!");
     process.exit(0);
   } catch (error) {

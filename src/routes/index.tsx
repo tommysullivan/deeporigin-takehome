@@ -1,75 +1,18 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  useClerk,
-  UserButton,
-} from "@clerk/clerk-react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Nav } from "@/components/Nav";
+import { getShortURL } from "@/data/getShortURL";
+import { urlRegex } from "@/data/urlRegex";
+import { SignedOut, useClerk } from "@clerk/clerk-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { FaArrowCircleRight, FaCheckCircle, FaLink } from "react-icons/fa";
 import { FaRegCopy } from "react-icons/fa6";
-import z from "zod";
 
 export const Route = createFileRoute("/")({ component: App });
-
-import { auth } from "@clerk/tanstack-react-start/server";
-import { createServerFn } from "@tanstack/react-start";
-
-const getShortURLInput = z.object({
-  originalURL: z.url(),
-});
-
-const getShortURL = createServerFn({
-  method: "GET",
-})
-  .inputValidator(getShortURLInput)
-  .handler(async ({ data }) => {
-    try {
-      const { userId } = await auth();
-      console.log(data);
-      if (!userId) {
-        throw new Error(
-          "Unauthorized: You must be signed in to access this resource"
-        );
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      return {
-        shortUrl: "https://example.com/shortURL",
-      };
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  });
-
-const Nav = () => {
-  return (
-    <>
-      <SignedIn>
-        <div className="flex flex-row justify-end items-center gap-5">
-          <Link to="/" className="text-blue-300 hover:underline">
-            Dashboard
-          </Link>
-          <UserButton />
-        </div>
-      </SignedIn>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-    </>
-  );
-};
-
-export const urlRegex =
-  "https?://[A-Za-z0-9]([A-Za-z0-9\\-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9\\-]*[A-Za-z0-9])?)+(:\\d+)?(/[^\\s]*)?";
 
 function App() {
   const { redirectToSignIn } = useClerk();
   const [originalURL, setOriginalURL] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+  const [shortURL, setShortURL] = useState("");
   const [copied, setCopied] = useState(false);
   return (
     <>
@@ -92,7 +35,7 @@ function App() {
               onSubmit={(e) => {
                 e.preventDefault();
                 getShortURL({ data: { originalURL } })
-                  .then(({ shortUrl }) => setShortUrl(shortUrl))
+                  .then(({ shortURL }) => setShortURL(shortURL))
                   .catch(alert);
               }}
             >
@@ -100,7 +43,10 @@ function App() {
                 <input
                   // value="https://example.for.testing:3000/here"
                   value={originalURL}
-                  onChange={e => { setOriginalURL(e.target.value); setShortUrl(''); }}
+                  onChange={(e) => {
+                    setOriginalURL(e.target.value);
+                    setShortURL("");
+                  }}
                   type="text"
                   placeholder="Enter URL to shorten"
                   autoFocus={true}
@@ -161,7 +107,7 @@ function App() {
                 </button>
               </section>
             </form>
-            {shortUrl && (
+            {shortURL && (
               <div
                 id="success-message"
                 className="animate-in fade-in slide-in-from-bottom-4 duration-500"
@@ -173,16 +119,16 @@ function App() {
                   </span>
                   <span id="short-url-and-button" className="whitespace-nowrap">
                     <a
-                      href={shortUrl}
+                      href={shortURL}
                       target="_blank"
                       className="text-blue-300 font-bold"
                     >
-                      {shortUrl}
+                      {shortURL}
                     </a>
                     <div className="relative group whitespace-nowrap inline-block">
                       <button
                         onClick={() => {
-                          navigator.clipboard.writeText(shortUrl);
+                          navigator.clipboard.writeText(shortURL);
                           setCopied(true);
                           setTimeout(() => setCopied(false), 3000);
                         }}
