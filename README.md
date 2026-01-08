@@ -16,7 +16,14 @@ NOTE: You will need to use the app level login to get access to signed in featur
 
 # Local Development
 
-Recommend to use VS Code with DevContainers for the easiest setup. There is an alternative manual setup section below if you prefer that.
+Recommend to use VS Code with DevContainers for the easiest setup. There is an alternative manual setup section below if you prefer that. See below for details.
+
+## Set up .env.local
+
+Regardless whether you use devcontainer or not, you must first set up `.env.local` with secrets (request those by emailing tommy@tommysullivan.codes)
+
+- Copy `.env.local.template` to `.env.local` since the secrets are not committed
+- Replace `PASTE_CLIENT_SECRET_KEY_HERE` with the secret you obtained
 
 ## Local Development - VS Code with DevContainers
 
@@ -76,6 +83,11 @@ within the app container terminal:
 ### Clean Up
 
 - from outside the container, run `npm run docker-compose down` to kill everything
+
+# Deployment
+
+I deployed this from devcontainer by running `vercel` after setting up an account and setting up the neon postgres integration
+I set env vars using `vercel env` commands
 
 # Testing
 
