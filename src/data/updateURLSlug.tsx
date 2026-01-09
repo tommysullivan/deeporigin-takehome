@@ -1,14 +1,10 @@
 import { dbTypesafe } from "@/db/dbTypesafe";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-
-interface UpdateURLSlugInput {
-  id: number;
-  newSlug: string;
-}
+import z from "zod";
 
 export const updateURLSlug = createServerFn({ method: "POST" })
-  .inputValidator((data: UpdateURLSlugInput) => data)
+  .inputValidator(z.object({ id: z.number(), newSlug: z.string() }))
   .handler(async ({ data: { id, newSlug } }) => {
     const { userId } = await auth();
 
