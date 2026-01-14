@@ -1,0 +1,114 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Home Page (Non-logged-in) > should match snapshot for non-logged-in state 1`] = `
+<div>
+  <div
+    class="m0 p0 h-screen text-white bg-linear-to-b from-slate-800 via-slate-700 to-slate-800"
+  >
+    <nav
+      class="text-right p-3"
+    >
+      <div
+        data-testid="nav"
+      >
+        Nav
+      </div>
+    </nav>
+    <main
+      class="flex justify-center"
+    >
+      <div
+        class="flex gap-2 flex-col p-2 animate-in fade-in slide-in-from-bottom-4 duration-700"
+        id="content"
+        style="margin-top: 30vh;"
+      >
+        <h1
+          class="flex gap-2 items-center text-3xl"
+        >
+          URL Shortener
+          <span>
+            🔗
+          </span>
+        </h1>
+        <form
+          class="grid grid-cols-12 gap-4 group items-start"
+        >
+          <section
+            class=" gap-2 col-span-12 md:col-span-9"
+          >
+            <input
+              class="
+                    text-black bg-white text-lg peer
+                    w-full rounded-full border-4 p-4 outline-none
+                    border-slate-300
+                    invalid:border-red-500
+                    valid:border-emerald-500
+                    placeholder-shown:border-slate-300!"
+              pattern="https?://[A-Za-z0-9]([A-Za-z0-9\\-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9\\-]*[A-Za-z0-9])?)+(:\\d+)?(/[^\\s]*)?"
+              placeholder="Enter URL to shorten"
+              required=""
+              type="text"
+              value=""
+            />
+            <p
+              class="
+                    hidden text-sm text-red-400
+                    peer-invalid:block
+                    peer-placeholder-shown:hidden!
+                    font-bold
+                    ml-4"
+            >
+              Must be a valid http or https URL
+            </p>
+            <div
+              data-testid="signed-out"
+            >
+              <p
+                class="ml-4 mt-4"
+              >
+                <a
+                  class="text-blue-300 hover:underline cursor-pointer"
+                >
+                  Sign In
+                </a>
+                 
+                first if you want to track your URLs!
+              </p>
+            </div>
+          </section>
+          <section
+            class="col-span-12 md:col-span-3"
+          >
+            <button
+              class="
+                    w-full
+                    rounded-full
+                    border-4 border-white
+                    bg-blue-600
+                    hover:bg-blue-500
+                    group-has-invalid:hover:bg-blue-600
+                    text-white
+                    text-lg
+                    px-6 py-4
+                    cursor-pointer
+                    transition-all duration-300
+                    group-has-invalid:opacity-50
+                    group-has-invalid:cursor-not-allowed
+                    flex items-center justify-center gap-2"
+              type="submit"
+            >
+              Shorten
+               
+              <span
+                style="display: inline-block;"
+              >
+                →
+              </span>
+            </button>
+          </section>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+`;

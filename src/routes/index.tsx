@@ -9,7 +9,7 @@ import { FaRegCopy } from "react-icons/fa6";
 
 export const Route = createFileRoute("/")({ component: App });
 
-function App() {
+export function App() {
   const { redirectToSignIn } = useClerk();
   const [originalURL, setOriginalURL] = useState("");
   const [shortURL, setShortURL] = useState("");
