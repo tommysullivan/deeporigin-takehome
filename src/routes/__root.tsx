@@ -1,10 +1,15 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRoute,
+} from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
-import appCss from "../styles.css?url";
 import { IconContext } from "node_modules/react-icons/lib/iconContext";
 import ClerkProvider from "../clerk/provider";
+import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,11 +32,27 @@ export const Route = createRootRoute({
       },
     ],
   }),
-
+  notFoundComponent: () => (
+    <div className="flex items-center justify-center h-screen bg-slate-800 text-white">
+      <div className="text-center">
+        <h1 className="text-6xl font-bold mb-4">404</h1>
+        <p className="text-xl mb-2">Page Not Found</p>
+        <p className="text-gray-400">
+          The page you're looking for doesn't exist.
+        </p>
+        <a
+          href="/"
+          className="mt-6 inline-block bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-full transition-colors"
+        >
+          Go Home
+        </a>
+      </div>
+    </div>
+  ),
   shellComponent: RootDocument,
 });
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument() {
   return (
     <html lang="en">
       <head>
@@ -40,7 +61,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="m0 p0 font-sans">
         <ClerkProvider>
           <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
-            {children}
+            <Outlet />
           </IconContext.Provider>
           <TanStackDevtools
             config={{

@@ -1,5 +1,5 @@
 import { dbTypesafe } from "@/db/dbTypesafe";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 
 const getURLBySlug = createServerFn({ method: "GET" })
@@ -11,31 +11,32 @@ const getURLBySlug = createServerFn({ method: "GET" })
       .where("shortURLSlug", "=", slug)
       .executeTakeFirst();
 
-    if (result) {
-      // Record the click before redirecting
-      await dbTypesafe
-        .insertInto("clicks")
-        .values({ url_id: result.id })
-        .execute();
+    if (!result) {
+      return null;
     }
 
-    return result?.originalURL ?? null;
+    await dbTypesafe
+      .insertInto("clicks")
+      .values({ url_id: result.id })
+      .execute();
+
+    return result.originalURL;
   });
 
 export const Route = createFileRoute("/urls/$slug")({
   loader: async ({ params }) => {
     const originalURL = await getURLBySlug({ data: params.slug });
 
-    if (originalURL) {
-      throw redirect({
-        href: originalURL,
-        code: 302,
-      });
+    if (!originalURL) {
+      throw notFound();
     }
 
-    return { slug: params.slug };
+    throw redirect({
+      href: originalURL,
+      code: 302,
+    });
   },
-  component: NotFoundComponent,
+  notFoundComponent: NotFoundComponent,
 });
 
 function NotFoundComponent() {

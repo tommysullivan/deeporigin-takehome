@@ -4,6 +4,9 @@ import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { urlsBasePath } from "./urlsBasePath";
 
+const isBlacklisted = (url: string) =>
+  ["badurl.com", "otherBarUrl.com"].some((badUrl) => url.includes(badUrl));
+
 export const getShortURL = createServerFn({
   method: "GET",
 })
@@ -14,6 +17,8 @@ export const getShortURL = createServerFn({
   )
   .handler(async ({ data: { originalURL } }) => {
     try {
+      if (isBlacklisted(originalURL))
+        throw new Error("The provided URL is blacklisted.");
       const { userId } = await auth();
       const { shortURLSlug } = await loadOrCreateURLRow(originalURL, userId);
       return {

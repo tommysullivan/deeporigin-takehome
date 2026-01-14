@@ -21,14 +21,16 @@ const config = defineConfig({
   },
   plugins: [
     devtools(),
-    nitro(),
-    // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
+
+    //nitro 3 bug intercepts 404s. fixed in nightly build but that breaks vercel deploys.
+    //comment out to view 404s locally
+    // nitro(),
   ],
 });
 

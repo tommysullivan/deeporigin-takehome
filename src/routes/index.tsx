@@ -14,6 +14,7 @@ function App() {
   const [originalURL, setOriginalURL] = useState("");
   const [shortURL, setShortURL] = useState("");
   const [copied, setCopied] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
   return (
     <>
       <div className="m0 p0 h-screen text-white bg-linear-to-b from-slate-800 via-slate-700 to-slate-800">
@@ -36,7 +37,8 @@ function App() {
                 e.preventDefault();
                 getShortURL({ data: { originalURL } })
                   .then(({ shortURL }) => setShortURL(shortURL))
-                  .catch(alert);
+                  .then(() => setErrors([]))
+                  .catch((error) => setErrors([error.message]));
               }}
             >
               <section className=" gap-2 col-span-12 md:col-span-9">
@@ -71,6 +73,18 @@ function App() {
                 >
                   Must be a valid http or https URL
                 </p>
+                {errors.map((error) => (
+                  <p
+                    className="
+                    text-sm text-red-400
+                    peer-invalid:block
+                    peer-placeholder-shown:hidden!
+                    font-bold
+                    ml-4"
+                  >
+                    {error}
+                  </p>
+                ))}
                 <SignedOut>
                   <p className="ml-4 mt-4">
                     <a
