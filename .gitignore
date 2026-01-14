@@ -12,3 +12,7 @@ count.txt
 .vinxi
 todos.json
 .vercel
+
+# Playwright test results (should be in e2e/ but just in case)
+test-results
+playwright-report

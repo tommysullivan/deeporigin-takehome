@@ -11,7 +11,8 @@
         "esbenp.prettier-vscode",
         "ms-vscode.vscode-json",
         "ckolkman.vscode-postgres",
-        "ms-azuretools.vscode-containers"
+        "ms-azuretools.vscode-containers",
+        "ms-playwright.playwright"
       ],
       "settings": {
         "typescript.preferences.quoteStyle": "single",

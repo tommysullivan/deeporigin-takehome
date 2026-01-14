@@ -33,3 +33,7 @@ RUN npm install -g vercel
 # Stay as root user for Docker socket access
 # Set default shell to bash
 ENV SHELL=/bin/bash
+
+# Set up playwright
+RUN apt-get update && apt-get install -y xvfb
+RUN npx playwright install --with-deps chromium

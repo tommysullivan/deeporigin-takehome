@@ -1,0 +1,4 @@
+# Ignore Playwright test results and artifacts
+test-results/
+playwright-report/
+.auth/
