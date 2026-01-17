@@ -12,7 +12,8 @@
         "ms-vscode.vscode-json",
         "ckolkman.vscode-postgres",
         "ms-azuretools.vscode-containers",
-        "ms-playwright.playwright"
+        "ms-playwright.playwright",
+        "bradlc.vscode-tailwindcss"
       ],
       "settings": {
         "typescript.preferences.quoteStyle": "single",
