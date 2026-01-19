@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { urlsBasePath } from "@/data/urlsBasePath";
 import { updateURLSlug } from "@/data/updateURLSlug";
 
@@ -118,10 +119,25 @@ export function URLEntry({
         </div>
 
         <div className="text-right ml-4">
-          <div className="text-2xl font-bold text-blue-400">{clickCount}</div>
-          <div className="text-sm text-gray-400">
-            {clickCount === 1 ? "click" : "clicks"}
-          </div>
+          <Link
+            to="/analytics/$id"
+            params={{ id: String(id) }}
+            className="block hover:scale-105 transition-transform"
+          >
+            <div className="text-2xl font-bold text-blue-400 hover:text-blue-300 cursor-pointer">
+              {clickCount}
+            </div>
+            <div className="text-sm text-gray-400">
+              {clickCount === 1 ? "click" : "clicks"}
+            </div>
+          </Link>
+          <Link
+            to="/analytics/$id"
+            params={{ id: String(id) }}
+            className="text-xs text-blue-400 hover:text-blue-300 hover:underline mt-1 inline-block"
+          >
+            View Details →
+          </Link>
         </div>
       </div>
     </div>
