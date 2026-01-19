@@ -110,3 +110,9 @@ Usually I use gitlab ci or github actions to define a CICD pipeline in code, spe
 - **DevContainer and Docker Compose** to simplify setup
 - **Maximized use of browser-level HTML and CSS** form and input validation to reduce TS footprint for those concerns and increase compatibility
 - **Zod** for runtime typechecking of API
+
+# Possible Enhancments 
+
+- chart showing click rates over time
+- delete a url
+- run the load balancing in the server
