@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UrlsSlugRouteImport } from './routes/urls.$slug'
+import { Route as AnalyticsIdRouteImport } from './routes/analytics.$id'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -28,34 +29,43 @@ const UrlsSlugRoute = UrlsSlugRouteImport.update({
   path: '/urls/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsIdRoute = AnalyticsIdRouteImport.update({
+  id: '/analytics/$id',
+  path: '/analytics/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/analytics/$id': typeof AnalyticsIdRoute
   '/urls/$slug': typeof UrlsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/analytics/$id': typeof AnalyticsIdRoute
   '/urls/$slug': typeof UrlsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/analytics/$id': typeof AnalyticsIdRoute
   '/urls/$slug': typeof UrlsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/urls/$slug'
+  fullPaths: '/' | '/dashboard' | '/analytics/$id' | '/urls/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/urls/$slug'
-  id: '__root__' | '/' | '/dashboard' | '/urls/$slug'
+  to: '/' | '/dashboard' | '/analytics/$id' | '/urls/$slug'
+  id: '__root__' | '/' | '/dashboard' | '/analytics/$id' | '/urls/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  AnalyticsIdRoute: typeof AnalyticsIdRoute
   UrlsSlugRoute: typeof UrlsSlugRoute
 }
 
@@ -82,12 +92,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UrlsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics/$id': {
+      id: '/analytics/$id'
+      path: '/analytics/$id'
+      fullPath: '/analytics/$id'
+      preLoaderRoute: typeof AnalyticsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  AnalyticsIdRoute: AnalyticsIdRoute,
   UrlsSlugRoute: UrlsSlugRoute,
 }
 export const routeTree = rootRouteImport
