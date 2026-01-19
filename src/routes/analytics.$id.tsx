@@ -41,7 +41,6 @@ function DashboardDetails() {
 
   const fetchAnalytics = () => {
     setLoading(true);
-
     let startTime: string | undefined;
     let endTime: string | undefined;
 
